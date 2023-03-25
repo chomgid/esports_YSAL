@@ -218,7 +218,7 @@ def getTimelineData(api_key, tier, min):
         # 응답 테스트 끝
 
         # 필요부분만 가져오기
-        if len(req.json()['info']['frames']) <10:
+        if len(req.json()['info']['frames']) < min+1:
             continue
         else:
             frames = req.json()['info']['frames']
@@ -236,7 +236,7 @@ def getTimelineData(api_key, tier, min):
             pass
         
 
-        participant = frames[10]['participantFrames']
+        participant = frames[min]['participantFrames']
         bluetotal_gold, bluecurrent_gold, bluetotal_level,bluetotal_minionkill,bluetotal_jungleminionkill = [],[],[],[],[]
         redtotal_gold, redcurrent_gold, redtotal_level,redtotal_minionkill, redtotal_jungleminionkill = [],[],[],[],[]
         
