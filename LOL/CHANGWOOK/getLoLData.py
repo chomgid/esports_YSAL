@@ -85,8 +85,7 @@ def getPuuid(api_key, tier):
 # puuid를 이용해 matchId 가져오기
 def getMatchId(api_key, tier):
     '''
-    return matchId's in list
-
+    return matchIds in list
     args:
         api_key(str) : your Riot api key 
         tier(int) : 0 for challenger, 1 for grandmaster, 2 for master

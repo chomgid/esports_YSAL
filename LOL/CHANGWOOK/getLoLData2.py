@@ -449,30 +449,57 @@ def getTimelineData(api_key, tier, min):
                             red_inhibitor += 1
 
 
+    # list값으로 반환되는 변수들을 string으로 바꾸는 부분
         try:
             blue_firsttowerlane = blue_firsttowerlane[0]
         except:
             blue_firsttowerlane= None
-        try:
-            blue_dragontype1=blue_dragontype[0]
+        try: 
+            blue_dragontype[0]
             try:
-                blue_dragontype = blue_dragontype1+","+ blue_dragontype[1]
+                blue_dragontype[1]
+                try:
+                    blue_dragontype[2]
+                    try:
+                        blue_dragontype[3]
+                        try:
+                            blue_dragontype[4]
+                            blue_dragontype = blue_dragontype[0] + "," + blue_dragontype[1] + "," + blue_dragontype[2] + "," + blue_dragontype[3]+ "," + blue_dragontype[4]
+                        except:
+                            blue_dragontype = blue_dragontype[0] + "," + blue_dragontype[1] + "," + blue_dragontype[2] + "," + blue_dragontype[3]
+                    except:
+                        blue_dragontype = blue_dragontype[0] + "," + blue_dragontype[1] + "," + blue_dragontype[2]
+                except:
+                    blue_dragontype = blue_dragontype[0] + "," + blue_dragontype[1]
             except:
-                pass
+                blue_dragontype = blue_dragontype[0]
         except:
             blue_dragontype=None
         try:
             red_firsttowerlane = red_firsttowerlane[0]
         except:
             red_firsttowerlane = None
-        try:
-            red_dragontype1=red_dragontype[0]
+        try: 
+            red_dragontype[0]
             try:
-                red_dragontype = red_dragontype1+","+ red_dragontype[1]
+                red_dragontype[1]
+                try:
+                    red_dragontype[2]
+                    try:
+                        red_dragontype[3]
+                        try:
+                            red_dragontype[4]
+                            red_dragontype = red_dragontype[0] + "," + red_dragontype[1] + "," + red_dragontype[2] + "," + red_dragontype[3] + "," + red_dragontype[4]
+                        except:
+                            red_dragontype = red_dragontype[0] + "," + red_dragontype[1] + "," + red_dragontype[2] + "," + red_dragontype[3]
+                    except:
+                        red_dragontype = red_dragontype[0] + "," + red_dragontype[1] + "," + red_dragontype[2]
+                except:
+                    red_dragontype = red_dragontype[0] + "," + red_dragontype[1]
             except:
-                pass
+                red_dragontype = red_dragontype[0]
         except:
-            red_dragontype =None
+            red_dragontype=None
         
         data_list = [game_id,blueWins,np.sum(bluetotal_gold)\
                     ,np.sum(bluecurrent_gold),np.sum(bluetotal_level),np.mean(bluetotal_level)\
@@ -505,7 +532,7 @@ def getTimelineData(api_key, tier, min):
 # ===================================== 경기 마지막 데이터를 가져오기 위한 함수 ==================================================
 
 # matchId를 이용해 lastdata 가져오기
-def getLastData(api_key, tier, min):
+def getLastData(api_key, tier):
     '''
     return gameData on specific min in pandas.DataFrame
     args:
@@ -608,7 +635,7 @@ def getLastData(api_key, tier, min):
             pass
         
 
-        participant = frames[min - 1]['participantFrames']
+        participant = frames[-1]['participantFrames']
         bluetotal_gold, bluecurrent_gold, bluetotal_level,bluetotal_minionkill,bluetotal_jungleminionkill,bluetotal_damage = [],[],[],[],[],[]
         redtotal_gold, redcurrent_gold, redtotal_level,redtotal_minionkill, redtotal_jungleminionkill,redtotal_damage = [],[],[],[],[],[]
         
@@ -826,30 +853,57 @@ def getLastData(api_key, tier, min):
                             red_inhibitor += 1
 
 
+# list값으로 반환되는 변수들을 string으로 바꾸는 부분
         try:
             blue_firsttowerlane = blue_firsttowerlane[0]
         except:
             blue_firsttowerlane= None
-        try:
-            blue_dragontype1=blue_dragontype[0]
+        try: 
+            blue_dragontype[0]
             try:
-                blue_dragontype = blue_dragontype1+","+ blue_dragontype[1]
+                blue_dragontype[1]
+                try:
+                    blue_dragontype[2]
+                    try:
+                        blue_dragontype[3]
+                        try:
+                            blue_dragontype[4]
+                            blue_dragontype = blue_dragontype[0] + "," + blue_dragontype[1] + "," + blue_dragontype[2] + "," + blue_dragontype[3]+ "," + blue_dragontype[4]
+                        except:
+                            blue_dragontype = blue_dragontype[0] + "," + blue_dragontype[1] + "," + blue_dragontype[2] + "," + blue_dragontype[3]
+                    except:
+                        blue_dragontype = blue_dragontype[0] + "," + blue_dragontype[1] + "," + blue_dragontype[2]
+                except:
+                    blue_dragontype = blue_dragontype[0] + "," + blue_dragontype[1]
             except:
-                pass
+                blue_dragontype = blue_dragontype[0]
         except:
             blue_dragontype=None
         try:
             red_firsttowerlane = red_firsttowerlane[0]
         except:
             red_firsttowerlane = None
-        try:
-            red_dragontype1=red_dragontype[0]
+        try: 
+            red_dragontype[0]
             try:
-                red_dragontype = red_dragontype1+","+ red_dragontype[1]
+                red_dragontype[1]
+                try:
+                    red_dragontype[2]
+                    try:
+                        red_dragontype[3]
+                        try:
+                            red_dragontype[4]
+                            red_dragontype = red_dragontype[0] + "," + red_dragontype[1] + "," + red_dragontype[2] + "," + red_dragontype[3] + "," + red_dragontype[4]
+                        except:
+                            red_dragontype = red_dragontype[0] + "," + red_dragontype[1] + "," + red_dragontype[2] + "," + red_dragontype[3]
+                    except:
+                        red_dragontype = red_dragontype[0] + "," + red_dragontype[1] + "," + red_dragontype[2]
+                except:
+                    red_dragontype = red_dragontype[0] + "," + red_dragontype[1]
             except:
-                pass
+                red_dragontype = red_dragontype[0]
         except:
-            red_dragontype =None
+            red_dragontype=None
         
         data_list = [game_id,blueWins,np.sum(bluetotal_gold)\
                     ,np.sum(bluecurrent_gold),np.sum(bluetotal_level),np.mean(bluetotal_level)\
