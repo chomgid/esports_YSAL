@@ -4,6 +4,7 @@ import time
 import pandas as pd
 from tqdm import tqdm
 import numpy as np
+from random import randint
 
 
 # SummonerId 가져오기
@@ -12,7 +13,15 @@ def getSumId(api_key, tier):
     return dict{summoner name : summonerId} 
     args:
         api_key(str) : your Riot api key 
-        tier(int) : 0 for challenger, 1 for grandmaster, 2 for master
+        tier(int) : 0 for challenger, 
+                    1 for grandmaster, 
+                    2 for master, 
+                    3 for Dia3, 
+                    4 for Pla3, 
+                    5 for gold3, 
+                    6 for Sil3, 
+                    7 for Bron2, 
+                    8 for Iron2
     '''
     print("downloading summonerID!")
 
@@ -22,15 +31,34 @@ def getSumId(api_key, tier):
         url="https://kr.api.riotgames.com/lol/league/v4/grandmasterleagues/by-queue/RANKED_SOLO_5x5?api_key="+api_key
     elif tier==2:
         url="https://kr.api.riotgames.com/lol/league/v4/masterleagues/by-queue/RANKED_SOLO_5x5?api_key="+api_key
+    elif tier==3:
+        url="https://kr.api.riotgames.com/lol/league/v4/entries/RANKED_SOLO_5x5/DIAMOND/III?page="+ str(randint(1,70))+"&api_key=" + api_key
+    elif tier==4:
+        url="https://kr.api.riotgames.com/lol/league/v4/entries/RANKED_SOLO_5x5/PLATINUM/III?page="+str(randint(1,310))+"&api_key=" + api_key
+    elif tier==5:
+        url="https://kr.api.riotgames.com/lol/league/v4/entries/RANKED_SOLO_5x5/GOLD/III?page="+str(randint(1,790))+"&api_key=" + api_key
+    elif tier==6:
+        url="https://kr.api.riotgames.com/lol/league/v4/entries/RANKED_SOLO_5x5/SILVER/III?page="+str(randint(1,950))+"&api_key=" + api_key
+    elif tier==7:
+        url="https://kr.api.riotgames.com/lol/league/v4/entries/RANKED_SOLO_5x5/BRONZE/II?page="+str(randint(1,800))+"&api_key=" + api_key
+    elif tier==8:
+        url="https://kr.api.riotgames.com/lol/league/v4/entries/RANKED_SOLO_5x5/IRON/II?page="+str(randint(1,200))+"&api_key=" + api_key
     
 
     summonerId = {}
 
+    #request 갖고 오기
     r = requests.get(url)
-    r = r.json()['entries']
+
+    if tier<3:
+        r = r.json()['entries']
+    else:
+        r = r.json()
+        pass
+
     for i in r:
         summonerId[i['summonerName']] = i['summonerId']
-    
+
     print("summonerId downloaded!")
 
     return summonerId
@@ -125,7 +153,7 @@ def getMatchId(api_key, tier):
 
 
 # matchId를 이용해 timelinedata 가져오기
-def getTimelineData(api_key, tier, min):
+def getTimelineData(api_key, tier, min, matchId = False):
     '''
     return gameData on specific min in pandas.DataFrame
     args:
@@ -133,8 +161,12 @@ def getTimelineData(api_key, tier, min):
         tier(int) : 0 for challenger, 1 for grandmaster, 2 for master
         min : minutes
     '''
+    
+    if matchId == False:
+        matchId = getMatchId(api_key, tier)
+    else:
+        print("tier input ignored.")
 
-    matchId = getMatchId(api_key, tier)
 
     
     print("downloading TimelineData!")
@@ -156,7 +188,7 @@ def getTimelineData(api_key, tier, min):
                         ,'redWardPlaced','redWardKills','redFirstTower','redFirstInhibitor'\
                         ,'redFirstTowerLane'\
                         ,'redTowerKills','redMidTowerKills','redTopTowerKills','redBotTowerKills'\
-                        ,'redInhibitor','redFirstDragon','redDragonType','redDragon','redRiftHeralds']
+                        ,'redInhibitor','redFirstDragon','redDragonType','redDragon','redRiftHeralds','matchMin']
 
     chal_timeline_df = pd.DataFrame()
 
@@ -277,6 +309,8 @@ def getTimelineData(api_key, tier, min):
         blue_inhibitor, red_inhibitor = 0,0
         blue_firstinhibitor, red_firstinhibitor = 0,0
 
+        # 경기 시간 칼럼 추가
+        matchmin = len(frames)
 
         for y in range(0, min):
             events = frames[y]['events']
@@ -514,7 +548,7 @@ def getTimelineData(api_key, tier, min):
                     ,red_firstkill,red_kill,red_death,red_assist,red_wardplace,red_wardkill\
                     ,red_firsttower,red_firstinhibitor,red_firsttowerlane,red_tower\
                     ,red_midtower,red_toptower,red_bottower,red_inhibitor,red_firstdragon\
-                    ,red_dragontype,red_dragon,red_rift]
+                    ,red_dragontype,red_dragon,red_rift,matchmin]
 
         chal_timeline_df1 = pd.DataFrame(np.array([data_list]), columns=use_columns)
         chal_timeline_df = pd.concat([chal_timeline_df, chal_timeline_df1])
@@ -532,7 +566,7 @@ def getTimelineData(api_key, tier, min):
 # ===================================== 경기 마지막 데이터를 가져오기 위한 함수 ==================================================
 
 # matchId를 이용해 lastdata 가져오기
-def getLastData(api_key, tier):
+def getLastData(api_key, matchId):
     '''
     return gameData on specific min in pandas.DataFrame
     args:
@@ -541,7 +575,7 @@ def getLastData(api_key, tier):
         min : minutes
     '''
 
-    matchId = getMatchId(api_key, tier)
+    matchId = matchId
 
     
     print("downloading Last Data")
@@ -563,7 +597,7 @@ def getLastData(api_key, tier):
                         ,'redWardPlaced','redWardKills','redFirstTower','redFirstInhibitor'\
                         ,'redFirstTowerLane'\
                         ,'redTowerKills','redMidTowerKills','redTopTowerKills','redBotTowerKills'\
-                        ,'redInhibitor','redFirstDragon','redDragonType','redDragon','redRiftHeralds']
+                        ,'redInhibitor','redFirstDragon','redDragonType','redDragon','redRiftHeralds','matchMin']
 
     chal_timeline_df = pd.DataFrame()
 
@@ -681,6 +715,8 @@ def getLastData(api_key, tier):
         blue_inhibitor, red_inhibitor = 0,0
         blue_firstinhibitor, red_firstinhibitor = 0,0
 
+        # 경기 시간 칼럼 추가
+        matchmin = len(frames)
 
         for y in range(len(frames)):
             events = frames[y]['events']
@@ -918,7 +954,7 @@ def getLastData(api_key, tier):
                     ,red_firstkill,red_kill,red_death,red_assist,red_wardplace,red_wardkill\
                     ,red_firsttower,red_firstinhibitor,red_firsttowerlane,red_tower\
                     ,red_midtower,red_toptower,red_bottower,red_inhibitor,red_firstdragon\
-                    ,red_dragontype,red_dragon,red_rift]
+                    ,red_dragontype,red_dragon,red_rift,matchmin]
 
         chal_timeline_df1 = pd.DataFrame(np.array([data_list]), columns=use_columns)
         chal_timeline_df = pd.concat([chal_timeline_df, chal_timeline_df1])
