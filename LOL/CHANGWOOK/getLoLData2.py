@@ -161,7 +161,7 @@ def getTimelineData(api_key, tier, min, matchId = False):
         tier(int) : 0 for challenger, 1 for grandmaster, 2 for master
         min : minutes
     '''
-    
+
     if matchId == False:
         matchId = getMatchId(api_key, tier)
     else:
@@ -551,7 +551,7 @@ def getTimelineData(api_key, tier, min, matchId = False):
                     ,red_dragontype,red_dragon,red_rift,matchmin]
 
         chal_timeline_df1 = pd.DataFrame(np.array([data_list]), columns=use_columns)
-        chal_timeline_df = pd.concat([chal_timeline_df, chal_timeline_df1])
+        chal_timeline_df = pd.concat([chal_timeline_df, chal_timeline_df1], ignore_index=True)
 
     # if b != 0 and b % 2000 == 0:  # feature가 많다보니 반복문 2000씩 끊어서 수집
     #     chal_timeline_df = pd.concat([chal_timeline_df, chal_timeline_df1])
@@ -957,7 +957,7 @@ def getLastData(api_key, matchId):
                     ,red_dragontype,red_dragon,red_rift,matchmin]
 
         chal_timeline_df1 = pd.DataFrame(np.array([data_list]), columns=use_columns)
-        chal_timeline_df = pd.concat([chal_timeline_df, chal_timeline_df1])
+        chal_timeline_df = pd.concat([chal_timeline_df, chal_timeline_df1], ignore_index=True)
 
     # if b != 0 and b % 2000 == 0:  # feature가 많다보니 반복문 2000씩 끊어서 수집
     #     chal_timeline_df = pd.concat([chal_timeline_df, chal_timeline_df1])
