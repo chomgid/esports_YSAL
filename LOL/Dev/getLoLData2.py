@@ -109,21 +109,21 @@ def getPuuid(api_key, tier):
 
 
 # puuid를 이용해 matchId 가져오기
-def getMatchId(api_key, tier):
+def getMatchId(api_key, tier, count = 1):
     '''
     return matchId's in list
     args:
         api_key(str) : your Riot api key 
         tier(int) : 0 for challenger, 1 for grandmaster, 2 for master
     '''
-   
+    
     puuid = getPuuid(api_key, tier)
     print("downloading matchId!")
     
     matchId =set()
 
     for i in tqdm(puuid.values()):
-        url = "https://asia.api.riotgames.com/lol/match/v5/matches/by-puuid/"+i+"/ids?queue=420&start=0&count=1&api_key=" + api_key     # count = 가져올 매치 수
+        url = "https://asia.api.riotgames.com/lol/match/v5/matches/by-puuid/"+i+"/ids?queue=420&start=0&count="+str(count)+"&api_key=" + api_key     # count = 가져올 매치 수
         r = requests.get(url)
 
         if r.status_code ==200:
@@ -153,19 +153,23 @@ def getMatchId(api_key, tier):
 
 
 # matchId를 이용해 timelinedata 가져오기
-def getTimelineData(api_key, tier, min, matchId = False):
+def getTimelineData(api_key, tier, min, count=1, match_input = False, matchId = []):
     '''
     return gameData on specific min in pandas.DataFrame
     args:
         api_key(str) : your Riot api key 
         tier(int) : 0 for challenger, 1 for grandmaster, 2 for master
-        min : minutes
+        min(int) : minutes
+        count(int): number of matches per person
+        match_input(boolean) : put it to True if you have matchId input
+        matchId = iterable 
     '''
     
-    if matchId == False:
-        matchId = getMatchId(api_key, tier)
+    if match_input == True:
+        print("tier, count, min inputs ignored.")
     else:
-        print("tier input ignored.")
+        print("no match input.")
+        matchId = getMatchId(api_key, tier, count)
 
 
     
@@ -551,7 +555,7 @@ def getTimelineData(api_key, tier, min, matchId = False):
                     ,red_dragontype,red_dragon,red_rift,matchmin]
 
         chal_timeline_df1 = pd.DataFrame(np.array([data_list]), columns=use_columns)
-        chal_timeline_df = pd.concat([chal_timeline_df, chal_timeline_df1],ignore_index=True)
+        chal_timeline_df = pd.concat([chal_timeline_df, chal_timeline_df1], ignore_index=True)
 
     # if b != 0 and b % 2000 == 0:  # feature가 많다보니 반복문 2000씩 끊어서 수집
     #     chal_timeline_df = pd.concat([chal_timeline_df, chal_timeline_df1])
@@ -957,7 +961,7 @@ def getLastData(api_key, matchId):
                     ,red_dragontype,red_dragon,red_rift,matchmin]
 
         chal_timeline_df1 = pd.DataFrame(np.array([data_list]), columns=use_columns)
-        chal_timeline_df = pd.concat([chal_timeline_df, chal_timeline_df1],ignore_index=True)
+        chal_timeline_df = pd.concat([chal_timeline_df, chal_timeline_df1], ignore_index=True)
 
     # if b != 0 and b % 2000 == 0:  # feature가 많다보니 반복문 2000씩 끊어서 수집
     #     chal_timeline_df = pd.concat([chal_timeline_df, chal_timeline_df1])
