@@ -166,7 +166,7 @@ def getTimelineData(api_key, tier, min, count=1, match_input = False, matchId = 
     '''
     
     if match_input == True:
-        print("tier, count, min inputs ignored.")
+        print("tier, count inputs ignored.")
     else:
         print("no match input.")
         matchId = getMatchId(api_key, tier, count)
