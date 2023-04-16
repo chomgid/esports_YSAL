@@ -274,7 +274,7 @@ def getTimelineData(api_key, tier, min, count=1, match_input = False, matchId = 
 
         for i in range(len(participant)):
             i = i+1
-            if 1<=i<5:
+            if 1<=i<=5:
                 bluetotal_gold.append(participant[str(i)]['totalGold'])
                 bluecurrent_gold.append(participant[str(i)]['currentGold'])
                 bluetotal_level.append(participant[str(i)]['level'])
@@ -680,7 +680,7 @@ def getLastData(api_key, matchId):
 
         for i in range(len(participant)):
             i = i+1
-            if 1<=i<5:
+            if 1<=i<=5:
                 bluetotal_gold.append(participant[str(i)]['totalGold'])
                 bluecurrent_gold.append(participant[str(i)]['currentGold'])
                 bluetotal_level.append(participant[str(i)]['level'])
