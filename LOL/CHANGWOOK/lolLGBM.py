@@ -101,8 +101,8 @@ def LGBMmodeling(df):
     global x_valid, y_valid, valid_pred
 
     def train_test(df):
-        x_train = df.drop(['blueWins'], axis=1)
-        y_train = df['blueWins']
+        x_train = df.drop(['predSuccess'], axis=1)
+        y_train = df['predSuccess']
         return x_train, y_train
 
     x_train, y_train = train_test(df)
