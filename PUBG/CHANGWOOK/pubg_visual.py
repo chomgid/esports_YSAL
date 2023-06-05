@@ -93,7 +93,7 @@ def track(api_key, match_id, teamName,tournmentID = "as-pgs1gf"):
     fig = plt.figure(figsize=(10, 10), dpi=100)
     ax = fig.add_axes([0, 0, 1, 1])
     ax.axis("off")
-    if map_id == "Desert_main":
+    if map_id == "Desert_Main":
         path =  "./Miramar.jpg"
     else:
         path = "./Erangel.jpg"
@@ -210,7 +210,7 @@ def landing(api_key, match_id, tournmentID = "as-pgs1gf"):
     fig = plt.figure(figsize=(10, 10), dpi=100)
     ax = fig.add_axes([0, 0, 1, 1])
     ax.axis("off")
-    if map_id == "Desert_main":
+    if map_id == "Desert_Main":
         path =  "./Miramar.jpg"
     else:
         path = "./Erangel.jpg"
@@ -291,7 +291,7 @@ def first_fight(api_key, match_id, teamName, tournmentID = "as-pgs1gf"):
     fig = plt.figure(figsize=(10, 10), dpi=100)
     ax = fig.add_axes([0, 0, 1, 1])
     ax.axis("off")
-    if map_id == "Desert_main":
+    if map_id == "Desert_Main":
         path =  "./Miramar.jpg"
     else:
         path = "./Erangel.jpg"
